@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1 class="mb-3">Add Employee Data</h1>
+
+    <form action="/update/{{employee.sno}}" method="POST">
+
+
+        <div class="mb-3">
+            <label class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" value="{{employee.email}}"
+                placeholder="email@example.com" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" value="{{employee.name}}" placeholder="Your Name"
+                required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+</div>
+
+{% endblock body %}

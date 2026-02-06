@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1 class="mb-3">Add Employee Data</h1>
+
+    <form action="/" method="post">
+        <div class="mb-3">
+            <label class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" placeholder="email@example.com" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- ================= EMPLOYEE TABLE ================= -->
+
+<div class="container mt-5">
+    <h2 class="text-center">Employee Data</h2>
+
+    <!-- SORT DROPDOWN -->
+    <form method="GET" action="/" class="mb-3">
+        <select name="sort" class="form-select w-25" onchange="this.form.submit()">
+            <option value="">Sort by S.No</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </form>
+
+    <!-- DELETE MULTIPLE FORM -->
+    <form method="POST" action="/delete-multiple">
+
+        <button type="submit" class="btn btn-danger mb-2"
+            onclick="return confirm('Delete selected employees?')">
+            Delete Selected
+        </button>
+
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAll">
+                    </th>
+                    <th>S. No.</th>
+                    <th>Full Name</th>
+                    <th>Email ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for emp in allemployee %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selected_ids" value="{{ emp.sno }}">
+                    </td>
+                    <td>{{ emp.sno }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.email }}</td>
+                    <td>
+                        <a href="/update/{{ emp.sno }}" class="btn btn-dark btn-sm">Update</a>
+
+                        <a href="/delete/{{ emp.sno }}" class="btn btn-dark btn-sm"
+                           onclick="return confirm('Delete this employee?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+document.getElementById("selectAll").addEventListener("click", function () {
+    let checkboxes = document.getElementsByName("selected_ids");
+    for (let cb of checkboxes) {
+        cb.checked = this.checked;
+    }
+});
+</script>
+
+{% endblock %}
